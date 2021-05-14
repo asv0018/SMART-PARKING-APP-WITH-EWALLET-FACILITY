@@ -9,6 +9,8 @@ DB_SERVER_NAME = "localhost"
 USERNAME = "root"
 PASSWORD = ""
 DATABASE = "smart-parking"
+IP_ADDRESS = "0.0.0.0"
+PORT = 8080
 
 mydb = mysql.connector.connect(
   host = DB_SERVER_NAME,
@@ -304,4 +306,4 @@ def register_account():
       return redirect("login")
 
 if __name__ == '__main__':
-    app.run(threaded=True, debug=True)
+    app.run(host=IP_ADDRESS, port= PORT, threaded=True, debug=True)
