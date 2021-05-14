@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+th {
+      border: 1px solid #dddddd;
+      color: #ffffff;
+     background-color: #003099;
+      text-align: left;
+      padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+ <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+</head>
+<body>
+
+<h2 style="text-align: center; font-family: 'Segoe UI';color: #003099;">TRANSACTIONS BETWEEN THE USERS AND THE MAIN AUTHORITY</h2>
+<p style="text-align: center; font-family: 'Segoe UI';">Click the following link to go to login section. <a href="login">Click here</a></p>
+<p style="text-align: center; font-family: 'Segoe UI';"><b>Account number</b> of the authority is <b>121112122212G</b></p>
+
+<table>
+  <tr>
+    <th style="text-align: center; font-family: 'Segoe UI';">Date & Time of transaction</th>
+    <th style="text-align: center; font-family: 'Segoe UI';">From</th>
+    <th style="text-align: center; font-family: 'Segoe UI';">To</th>
+    <th style="text-align: center; font-family: 'Segoe UI';">Amount credited</th>
+    <th style="text-align: center; font-family: 'Segoe UI';">Closing balance</th>
+  </tr>
+  {% for item in result %}
+  <tr>
+    <td style="text-align: center; font-family: 'Segoe UI';">{{item[1]}}</td>
+    <td style="text-align: center; font-family: 'Segoe UI';">{{item[2]}}</td>
+    <td style="text-align: center; font-family: 'Segoe UI';">{{item[3]}}</td>
+    <td style="text-align: center; color: green; font-family: 'Segoe UI';">INR {{item[4]}}</td>
+    <td style="text-align: center; color:green; font-family: 'Segoe UI';">INR {{item[5]}}</td>
+  </tr>
+  {% endfor %}
+  
+</table>
+
+</body>
+</html>
