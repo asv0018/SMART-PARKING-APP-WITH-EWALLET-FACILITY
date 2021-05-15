@@ -22,8 +22,6 @@ mydb = mysql.connector.connect(
 
 mycursor = mydb.cursor()
 
-mycursor.execute('set GLOBAL max_allowed_packet=67108864')
-mydb.commit()
 
 app = Flask(__name__)
 
