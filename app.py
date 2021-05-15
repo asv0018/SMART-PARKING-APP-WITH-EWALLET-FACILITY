@@ -5,10 +5,11 @@ from datetime import datetime
 import json
 
 
-DB_SERVER_NAME = "localhost"
-USERNAME = "root"
-PASSWORD = ""
-DATABASE = "smart-parking"
+DB_SERVER_NAME = "remotemysql.com"
+USERNAME = "ks0Mw22MM6"
+PASSWORD = "4C9FLMo7VK"
+DATABASE = "ks0Mw22MM6"
+
 IP_ADDRESS = "0.0.0.0"
 PORT = 8080
 
@@ -293,7 +294,7 @@ def register_account():
       username = str(request.form['firstname'] + " " + request.form['lastname'])
       email  = str(request.form["email"])
       password = sha256_crypt.hash(request.form["password"])
-      wallet_pin = sha256_crypt.hash(str(request.form["walletpin"]))
+      wallet_pin = request.form["walletpin"]
       opening_balance = float(request.form["openingbalance"])
       
       global mycursor, mydb
