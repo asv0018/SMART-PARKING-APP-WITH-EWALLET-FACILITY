@@ -5,10 +5,19 @@ from datetime import datetime
 import json
 
 
+"""
+# THIS IS OLD
 DB_SERVER_NAME = "remotemysql.com"
 USERNAME = "ks0Mw22MM6"
 PASSWORD = "4C9FLMo7VK"
 DATABASE = "ks0Mw22MM6"
+"""
+
+# THIS IS NEW
+DB_SERVER_NAME = "sql6.freesqldatabase.com"
+USERNAME = "sql6412573"
+PASSWORD = "pqDXtKevbx"
+DATABASE = "sql6412573"
 
 IP_ADDRESS = "0.0.0.0"
 PORT = 8080
