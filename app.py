@@ -38,6 +38,15 @@ app.secret_key = "THIS-IS-SECRET-KEY"
 
 
 #################################### ESP8266 HARDWARE INTERFACE CODE #################################
+@app.route("/b", methods=["GET"])
+def check_slot_bookig():
+    global mycursor, mydb
+    if request.method == "GET":
+        uuid = request.args.get("uuid")
+        slotname = request.args.get("slotname")
+        print("THE DUMMY UUID IS "+uuid)
+        print("THE DUMMY SLOT IS "+slotname)
+        return "KALLA"
 
 @app.route("/check_slot_and_start", methods=["GET"])
 def check_slot_booking():
@@ -45,17 +54,24 @@ def check_slot_booking():
     if request.method == "GET":
         uuid = request.args.get("uuid")
         slotname = request.args.get("slotname")
+        print("THE DUMMY UUID IS "+uuid)
+        print("THE DUMMY SLOT IS "+slotname)
         sql0 = "SELECT occupieduuid, startdatetime FROM slot_database_details WHERE slotname = %s"
         val0 = (slotname,)
         mycursor.execute(sql0, val0)
         data = mycursor.fetchone()
+        print(data)
+        print("..")
         mydb.commit()
-        if data != None:
+        if data[0] != None:
             occupieduuid = data[0]
-            if occupieduuid == uuid:
+            print("CHECK BOTH")
+            print(occupieduuid)
+            print(uuid)
+            if str(occupieduuid) == str(uuid):
                 if data[1]==None:
                     print("UUID, matches hence, the start time is initiated")
-                    sql1 = "UPDATE slot_database_details SET startdatetime = %s WHERE slotname = %s"
+                    sql1 = "UPDATE slot_database_details SET startdatetime = %s, status = 'OCCUPIED' WHERE slotname = %s"
                     now = datetime.now()
                     dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
                     val1 = (dt_string, slotname)
@@ -100,7 +116,7 @@ def update_bill_for_uuid():
         mycursor.execute(sql0, val0)
         data = mycursor.fetchone()
         mydb.commit()
-        if data != None:
+        if data[1] != None:
             if data[2]!=None:
                 #checking if user has begun session or not
                 uuid = data[1]
