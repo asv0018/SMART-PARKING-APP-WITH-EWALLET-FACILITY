@@ -14,7 +14,7 @@ StaticJsonDocument<200> doc;
 PN532_I2C pn532_i2c(Wire);
 NfcAdapter nfc = NfcAdapter(pn532_i2c);
 
-String ip_address = "192.168.0.106:8080";
+String ip_address = "54.91.112.239:8080";
 
 #define IR_SENSOR 14
 
@@ -107,8 +107,16 @@ void setup() {
               Serial.println("PROCESS HAS ALREADY BEGUN");
               flags.is_slot_occupied = true;
               flags.is_billing_running = true;
+              
               String bill = doc["bill"];
               String time_spent = doc["minutes_spent"];
+              lcd.clear();delay(100);
+              String firstRow = "SPENT:"+time_spent+" MINS";
+              String secondRow = "BILL: INR "+bill;
+              lcd.setCursor(0,0);
+              lcd.println(firstRow);
+              lcd.setCursor(0,1);
+              lcd.println(secondRow);
                
             }else if(message_==BILL_NOT_STARTED){
               Serial.println("BILLING HAS NOT YET STARTED");
@@ -138,10 +146,6 @@ void loop() {
     lcd.setCursor(0,1);
     lcd.println(" SCAN THE CARD  ");
     while(digitalRead(IR_SENSOR)){
-      lcd.setCursor(0,0);
-      lcd.println(" CAR IS PARKED  ");
-      lcd.setCursor(0,1);
-      lcd.println(" SCAN THE CARD  ");
       String empty = "";
       String nfc_data = "";
       nfc_data = scan_nfc_card();
@@ -197,7 +201,7 @@ void loop() {
             lcd.setCursor(0,0);
             lcd.println("CARD IS SCANNED ");
             lcd.setCursor(0,1);
-            lcd.println("CAR NOT BOOKED ");
+            lcd.println("SLOT NOT BOOKED ");
           }
         }
         }else{
@@ -239,7 +243,7 @@ void loop() {
             lcd.setCursor(0,0);
             lcd.println("CARD IS SCANNED ");
             lcd.setCursor(0,1);
-            lcd.println("CAR NOT BOOKED ");
+            lcd.println("SLOT NOT BOOKED ");
           }
         }
         }
@@ -272,7 +276,7 @@ void loop() {
               flags.is_billing_running = true;
               String bill = doc["bill"];
               String time_spent = doc["minutes_spent"];
-              lcd.clear();
+              lcd.clear();delay(100);
               String firstRow = "SPENT:"+time_spent+" MINS";
               String secondRow = "BILL: INR "+bill;
               lcd.setCursor(0,0);
