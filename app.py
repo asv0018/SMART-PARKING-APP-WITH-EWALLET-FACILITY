@@ -14,10 +14,10 @@ DATABASE = "ks0Mw22MM6"
 """
 
 # THIS IS NEW
-DB_SERVER_NAME = "sql6.freesqldatabase.com"
-USERNAME = "sql6412573"
-PASSWORD = "pqDXtKevbx"
-DATABASE = "sql6412573"
+DB_SERVER_NAME = "sql351.main-hosting.eu"
+USERNAME = "u675563313_sps"
+PASSWORD = "+mWV~G6r+Kx1"
+DATABASE = "u675563313_sps"
 
 IP_ADDRESS = "0.0.0.0"
 PORT = 8080
