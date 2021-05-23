@@ -15,7 +15,7 @@ DATABASE = "ks0Mw22MM6"
 
 # THIS IS NEW
 DB_SERVER_NAME = "sql351.main-hosting.eu"
-USERNAME = "u675563313_sps@sql351.main-hosting.eu"
+USERNAME = "u675563313_sps"
 PASSWORD = "+mWV~G6r+Kx1"
 DATABASE = "u675563313_sps"
  
