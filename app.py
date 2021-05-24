@@ -40,17 +40,23 @@ app.secret_key = "THIS-IS-SECRET-KEY"
 #################################### ESP8266 HARDWARE INTERFACE CODE #################################
 @app.route("/b", methods=["GET"])
 def check_slot_bookig():
-    global mycursor, mydb
+    mydb = mysql.connector.connect(host = DB_SERVER_NAME, user = USERNAME, password = PASSWORD, database = DATABASE)
+    mycursor = mydb.cursor()
     if request.method == "GET":
         uuid = request.args.get("uuid")
         slotname = request.args.get("slotname")
         print("THE DUMMY UUID IS "+uuid)
         print("THE DUMMY SLOT IS "+slotname)
+        
         return "KALLA"
+    else:
+        
+        return "GG"
 
 @app.route("/check_slot_and_start", methods=["GET"])
 def check_slot_booking():
-    global mycursor, mydb
+    mydb = mysql.connector.connect(host = DB_SERVER_NAME, user = USERNAME, password = PASSWORD, database = DATABASE)
+    mycursor = mydb.cursor()
     if request.method == "GET":
         uuid = request.args.get("uuid")
         slotname = request.args.get("slotname")
@@ -108,7 +114,8 @@ def check_slot_booking():
 
 @app.route("/update_bill", methods=["GET"])
 def update_bill_for_uuid():
-    global mycursor, mydb
+    mydb = mysql.connector.connect(host = DB_SERVER_NAME, user = USERNAME, password = PASSWORD, database = DATABASE)
+    mycursor = mydb.cursor()
     if request.method == "GET":
         slotname = request.args.get("slotname")
         sql0 = "SELECT currentbill, occupieduuid, startdatetime FROM slot_database_details WHERE slotname = %s"
@@ -161,7 +168,8 @@ def update_bill_for_uuid():
 
 @app.route("/check_and_debit_ewallet", methods=["GET"])
 def check_and_debit_wallet():
-    global mycursor, mydb
+    mydb = mysql.connector.connect(host = DB_SERVER_NAME, user = USERNAME, password = PASSWORD, database = DATABASE)
+    mycursor = mydb.cursor()
     if request.method == "GET":
         uuid = request.args.get("uuid")
         slotname = request.args.get("slotname")
@@ -254,7 +262,8 @@ def check_and_debit_wallet():
 @app.route("/")
 def root_index():
     sql = "SELECT * FROM `smart-parking-bank-account-with-transactions` ORDER BY slno DESC"
-    global mycursor, mydb
+    mydb = mysql.connector.connect(host = DB_SERVER_NAME, user = USERNAME, password = PASSWORD, database = DATABASE)
+    mycursor = mydb.cursor()
     mycursor.execute(sql)
     result = mycursor.fetchall()
     mydb.commit()
@@ -300,7 +309,8 @@ def stream_current_slot():
 def cancel_booking():
     if 'uuid' in session:
         uuid = session["uuid"]
-        global mydb, mycursor
+        mydb = mysql.connector.connect(host = DB_SERVER_NAME, user = USERNAME, password = PASSWORD, database = DATABASE)
+        mycursor = mydb.cursor()
         sql0 = "SELECT * FROM slot_database_details WHERE occupieduuid = %s"
         val0 = (uuid,)
         mycursor.execute(sql0,val0)
@@ -354,7 +364,8 @@ def cancel_booking():
 def render_previous_transactions():
     if 'uuid' in session:
         uuid = session["uuid"]
-        global mydb, mycursor
+        mydb = mysql.connector.connect(host = DB_SERVER_NAME, user = USERNAME, password = PASSWORD, database = DATABASE)
+        mycursor = mydb.cursor()
         sql = "SELECT * FROM all_transaction_details WHERE uuid = %s ORDER BY slno DESC"
         val = (uuid,)
         mycursor.execute(sql, val)
@@ -381,7 +392,8 @@ def render_homepage():
         uuid = session["uuid"]
         sql = "SELECT current_balance FROM `user_database` WHERE uuid= %s"
         val = (uuid,)
-        global mycursor, mydb
+        mydb = mysql.connector.connect(host = DB_SERVER_NAME, user = USERNAME, password = PASSWORD, database = DATABASE)
+        mycursor = mydb.cursor()
         mycursor.execute(sql, val)
         balance = mycursor.fetchone()
         mydb.commit()
@@ -419,6 +431,8 @@ def render_homepage():
 
 @app.route("/book-a-slot")
 def render_book_slot():
+    mydb = mysql.connector.connect(host = DB_SERVER_NAME, user = USERNAME, password = PASSWORD, database = DATABASE)
+    mycursor = mydb.cursor()
     if 'uuid' in session:
         uuid = session["uuid"]
         sql = "SELECT `slotname` FROM `slot_database_details` WHERE status='AVAILABLE'"
@@ -442,7 +456,8 @@ def book_slot_now():
         sql = "UPDATE slot_database_details SET occupieduuid=%s, orderedtime=%s, currentbill=%s, status=%s WHERE slotname = %s"
         status = "RESERVED"
         val = (uuid, orderedtime, bill, status, selectslot)
-        global mycursor, mydb
+        mydb = mysql.connector.connect(host = DB_SERVER_NAME, user = USERNAME, password = PASSWORD, database = DATABASE)
+        mycursor = mydb.cursor()
         mycursor.execute(sql,val)
         mydb.commit()
         return redirect("/index")
@@ -480,7 +495,8 @@ def add_money_to_wallet():
         amount = request.form["amount"]
         sql = "SELECT current_balance FROM `user_database` WHERE uuid = %s"
         val = (uuid,)
-        global mycursor, mydb
+        mydb = mysql.connector.connect(host = DB_SERVER_NAME, user = USERNAME, password = PASSWORD, database = DATABASE)
+        mycursor = mydb.cursor()
         mycursor.execute(sql, val)
         resp = mycursor.fetchone()
         value = float(amount)+float(resp[0])
@@ -499,7 +515,8 @@ def authenticate_login():
         password = request.form["password"]
         sql = "SELECT password, uuid, name FROM user_database WHERE email = %s"
         val = (email,)
-        global mycursor, mydb
+        mydb = mysql.connector.connect(host = DB_SERVER_NAME, user = USERNAME, password = PASSWORD, database = DATABASE)
+        mycursor = mydb.cursor()
         mycursor.execute(sql,val)
         myresult = mycursor.fetchone()
         if myresult != None:
@@ -526,7 +543,8 @@ def register_account():
       wallet_pin = request.form["walletpin"]
       opening_balance = float(request.form["openingbalance"])
       
-      global mycursor, mydb
+      mydb = mysql.connector.connect(host = DB_SERVER_NAME, user = USERNAME, password = PASSWORD, database = DATABASE)
+      mycursor = mydb.cursor()
       
       sql = "INSERT INTO user_database (uuid, name, email, password, current_balance, wallet_pin) VALUES (UUID(), %s, %s, %s, %s, %s)"
       val = (username, email, password, opening_balance, wallet_pin)
